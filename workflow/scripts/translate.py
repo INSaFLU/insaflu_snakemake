@@ -73,29 +73,11 @@ def get_best_translation(record, pos: list[int]) -> str:
     return options[min_idx]
 
 
-def write_fast_aa(
-    reference: str,
-    alignment: str,
-    output: str,
-    reference_id: str,
-    gene: str,
-    coverage: str,
-):
-    position = get_position_in_list(reference, reference_id)
-
-    coverage_dic = get_coverage_to_translate_matrix(coverage)
-
-    constants: dict[str, str] = read_yaml("../config/constants.yaml")
-
-    coverage_value: int = read_yaml(constants["software_parameters"])[
-        "min_coverage_consensus"
-    ]
-
-    positions: list[tuple[str, list[list[int]]]
-                    ] = ggb.get_positions_gb(reference)
-    positions = get_ref_adjusted_positions(alignment, positions, gene)
+def get_new_consensus(positions:  list[tuple[str, list[list[int]]]],
+                      coverage_dic: dict[str, list[str]],
+                      coverage_value: float,
+                      gene_idx: int) -> dict[str, dict[str, str]]:
     new_consensus: dict[str, dict[str, str]] = {}
-
     for gene_structure in positions:
         gene_name = gene_structure[0]
         gene_positions = gene_structure[1]
@@ -117,16 +99,9 @@ def write_fast_aa(
                 if seq.count("N") / gene_length > 0.1:
                     continue
                 identifier = record.id
-                print(coverage_dic)
-                print(identifier)
-                print(reference_id)
-                print(identifier[: identifier.index(
-                        f"__{reference_id}")])
-                print(coverage_dic[identifier[: identifier.index(
-                        f"__{reference_id}")]][position])
                 record_coverage = float(
                     coverage_dic[identifier[: identifier.index(
-                        f"__{reference_id}")]][position]
+                        f"__{reference_id}")]][gene_idx]
                 )
                 if record_coverage >= coverage_value:
                     if new_consensus[gene_name].get(identifier, False):
@@ -135,6 +110,35 @@ def write_fast_aa(
                     else:
                         new_consensus[gene_name][identifier] = get_best_translation(
                             record, pos)
+    return new_consensus
+
+
+def write_fast_aa(
+    reference: str,
+    alignment: str,
+    output: str,
+    reference_id: str,
+    gene: str,
+    coverage: str,
+):
+    coverage_dic = get_coverage_to_translate_matrix(coverage)
+
+    constants: dict[str, str] = read_yaml("../config/constants.yaml")
+
+    coverage_value: int = read_yaml(constants["software_parameters"])[
+        "min_coverage_consensus"
+    ]
+
+    gene_idx = get_position_in_list(reference, reference_id)
+
+    positions: list[tuple[str, list[list[int]]]
+                    ] = ggb.get_positions_gb(reference)
+    positions = get_ref_adjusted_positions(alignment, positions, gene)
+
+    new_consensus = get_new_consensus(positions,
+                                      coverage_dic,
+                                      coverage_value,
+                                      gene_idx)
 
     for value in new_consensus.values():
         write_fasta(value, output)

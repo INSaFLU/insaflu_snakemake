@@ -246,8 +246,8 @@ class Checkpoint_Main:
 dic_directory = read_yaml("../config/constants.yaml")
 scripts_directory = dic_directory["scripts"]
 coverage_script = dic_directory["get_coverage"]
-user_metadata_directort = dic_directory["user_metadata"]
-
+user_metadata_directory = dic_directory["user_metadata"]
+software_parameters_path = dic_directory["software_parameters"]
 
 config = read_yaml(dic_directory["threads"])
 

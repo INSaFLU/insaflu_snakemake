@@ -11,7 +11,7 @@ rule initiate_folder:
     benchmark:
         f"benchmark/{PROJECT_NAME}/main_result/initiate_folder.tsv"
     shell:
-        "mkdir {output} && cp {user_metadata_directort}parameters.yaml projects/{wildcards.project}/"
+        "mkdir {output} && cp {software_parameters_path} projects/{wildcards.project}/"
 
 
 rule makeproject:

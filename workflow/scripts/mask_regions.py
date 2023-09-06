@@ -1,6 +1,7 @@
+import argparse
+
 from Bio import SeqIO
 from Bio.Seq import MutableSeq
-import argparse
 
 
 def compute_masking_sites(

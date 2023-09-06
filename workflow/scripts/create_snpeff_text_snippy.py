@@ -5,26 +5,6 @@ from extract_gb_info import get_id_version, get_locus
 
 
 def prepare_snpeff_run(snpeff_path, ref_path_gb, locus, ref_path_fa, reference_name):
-    """
-    The prepare_snpeff_run function creates a snpEFF database for the reference genome.
-    It takes as input:
-        - The path to the reference genome in GenBank format, and
-        - The name of the output file that will be created by this function.
-
-       This function creates a directory called 'config/data' if it does not already exist,
-       and then creates three files inside that directory: genes.gbk, sequences.fa,
-       and snpeff_genes_prod_snpsiftdb-passed-only-geneidmap
-       (the last one is created by running SnpSift).
-
-    :param snpeff_path: Specify the path to snpeff
-    :param ref_path_gb: Specify the path to the genbank file of a reference genome
-    :param locus: Determine the reference genome to use for snpeff
-    :param ref_path_fa: Specify the path to the reference genome fasta file
-    :param reference_name: Name the reference files in the snpeff config file
-    :param output: Create a file that indicates the database is ready
-    :return: A text file with a message &quot;database ready!&quot;
-    :doc-author: Trelent
-    """
     if len(locus) > 1:
         text = [
             f"{reference_name}.chromosome : {' '.join(str(locus))}\n",
@@ -48,7 +28,8 @@ def prepare_snpeff_run(snpeff_path, ref_path_gb, locus, ref_path_fa, reference_n
         find = joined.find("".join(text))
 
     if find == -1:
-        os.system(f"mkdir  {snpeff_path}/share/snpeff-4.3.1t-5/data/{reference_name} ")
+        os.system(
+            f"mkdir  {snpeff_path}/share/snpeff-4.3.1t-5/data/{reference_name} ")
         os.system(
             f"cat {ref_path_gb} > {snpeff_path}/share/snpeff-4.3.1t-5/{reference_name}/genes.gbk"
         )
@@ -61,8 +42,6 @@ def prepare_snpeff_run(snpeff_path, ref_path_gb, locus, ref_path_fa, reference_n
             snpeff.writelines(text)
 
         os.system(f"snpEff build -genbank {reference_name}")
-    else:
-        print("Database Ready!")
 
 
 if __name__ == "__main__":
