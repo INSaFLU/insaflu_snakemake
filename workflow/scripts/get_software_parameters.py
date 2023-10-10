@@ -65,7 +65,7 @@ def mask_regions_parameters(software_parameters):
     return mask
 
 
-def get_snippy_parameters(software_parameters):
+def get_snippy_parameters(software_parameters, primer):
     snippy_parameters = (
         f' --mapqual {software_parameters["mapqual"]}'
         if software_parameters["mapqual"]
@@ -79,6 +79,11 @@ def get_snippy_parameters(software_parameters):
     snippy_parameters += (
         f' --minfrac {software_parameters["minfrac"] }'
         if software_parameters["minfrac"]
+        else ""
+    )
+    snippy_parameters += (
+        f' --primer ../../../{primer}'
+        if primer
         else ""
     )
     return snippy_parameters

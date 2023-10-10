@@ -16,7 +16,7 @@ rule snippy_pe:
         "../envs/snippy.yaml"
     threads: config["snippy_threads"]
     params:
-        get_snippy_parameters(software_parameters),
+        get_snippy_parameters(software_parameters, PRIMER_FASTA),
     resources:
         mem_mb=memory["snippy_pe"],
     log:
@@ -40,7 +40,7 @@ rule snippy_se:
     conda:
         "../envs/snippy.yaml"
     params:
-        get_snippy_parameters(software_parameters),
+        get_snippy_parameters(software_parameters, PRIMER_FASTA),
     resources:
         mem_mb=memory["snippy_se"],
     log:

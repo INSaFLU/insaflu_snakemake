@@ -203,7 +203,6 @@ def add_freq_ao_ad_and_type_to_vcf(
                                 vect_out_freq_filtered.append(
                                     float("{:.1f}".format(freq_value * 100))
                                 )
-                        # print(variant.pos, variant.ref, str(variant.alts), variant.info['DP'], vect_out_ao[-1], vect_out_freq[-1])
 
                     vect_out_ao.append(allele_count)
                     vect_out_type.append(
@@ -265,7 +264,6 @@ def compute_masking_sites(
     masking_sites = []
     if ranges is not None:
         for pos in ranges:
-            # print(ranges)
             pos[0] = int(pos[0])
             pos[1] = int(pos[1])
             if pos[1] < length and pos[1] > pos[0]:
@@ -334,8 +332,6 @@ def main():
         i if idx == len(vect_ranges) - 1 else f"{i},"
         for idx, i in enumerate(vect_ranges)
     )
-    # print(sites)
-    # print(regions)
 
     consensus = sys.argv[1]
     output = sys.argv[7]
@@ -355,23 +351,19 @@ def main():
             sequence, ranges, single_positions, from_beggining, from_end
         )
         masking_sites = sorted(masking_sites)
-        print(masking_sites)
         # Taken from insaflu
         ref_pos = 0
         gap = 0
         for idx in range(len(sequence)):
             if sequence[idx] == "-":
-                # print("Hello")
                 gap += 1
-                # print(gap)
 
             # ref_insertions += 1
             # continue
-                print(idx)
             if ref_pos in masking_sites:
-                print(
-                    f"placing N in position {ref_pos + ref_insertions}, it was a {sequence[ref_pos + ref_insertions]}"
-                )
+                # print(
+                #     f"placing N in position {ref_pos + ref_insertions}, it was a {sequence[ref_pos + ref_insertions]}"
+                # )
                 sequence[ref_pos + ref_insertions] = "N"
             ref_pos += 1
             if (ref_pos + ref_insertions) >= len(record.seq):
@@ -379,7 +371,6 @@ def main():
         # End of insaflu code
         record.seq = sequence
         final_mask_consensus.append(record)
-        print(final_mask_consensus[0].seq[8650])
 
     SeqIO.write(final_mask_consensus, output, "fasta")
 

@@ -122,7 +122,6 @@ def create_consensus_file_for_alignment(
     coverage_value = software_parameters["min_coverage_consensus"]
     for row in coverage_list:
         for value in range(len(row) - 1, 0, -1):
-            # print(row[value])
             if float(row[value]) > coverage_value:
                 row[value] = value
             else:

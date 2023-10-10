@@ -5,4 +5,5 @@ gb_reference: SARS_CoV_2_Wuhan_Hu_1_MN908947.gbk
 abricate: False
 illumina_consensus: snippy
 primers_fasta: null
+get_minor_variants: True
 

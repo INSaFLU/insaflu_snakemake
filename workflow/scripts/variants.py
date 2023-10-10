@@ -187,7 +187,6 @@ def analyse_file(input_file):
         else:
             default.extend(["", "", "", "", "", "", "", "", "", "", ""])
         vcf_data.append(default)
-    # print(vcf_data)
     return vcf_data
 
 

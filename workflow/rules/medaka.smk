@@ -1,4 +1,9 @@
 localrules:medaka_split_depth,mask_between_top_and_50,create_align_file,msa_masker_medaka,get_masked_consensus_medaka,mask_regions_consensus_medaka,
+def get_model():
+    params =  f"-m {software_parameters['Medaka_model']}"
+    params +=  f" -p ../../../{PRIMER_FASTA}" if PRIMER_FASTA else ""
+    return params
+
 rule medaka_consensus:
     input:
         i="samples/{sample}/trimmed_reads/nano_{sample}.trimmed.fastq.gz",
@@ -18,8 +23,14 @@ rule medaka_consensus:
         "logs/align_samples/{sample}/medaka/medaka_consensus.log",
     benchmark:
         "benchmark/align_samples/{sample}/medaka/medaka_consensus.tsv"
+    params:
+        get_model()
     shell:
-        "rm -r align_samples/{wildcards.sample}/medaka/ && mkdir align_samples/{wildcards.sample}/medaka/   && cp {input.ref} {output.ref_out} && medaka_consensus -i {input.i} -d {output.ref_out} -o align_samples/{wildcards.sample}/medaka -t {threads} -m r941_min_high_g360"
+        "rm -r align_samples/{wildcards.sample}/medaka/ && "
+        "mkdir align_samples/{wildcards.sample}/medaka/ && "
+        "cp {input.ref} {output.ref_out} && "
+        "medaka_consensus -i {input.i} -d {output.ref_out} "
+        "-o align_samples/{wildcards.sample}/medaka -t {threads} {params}"
         " && cp {output.i} {output.i2}"
 
 
@@ -31,7 +42,7 @@ rule medaka_get_depth:
         depth="align_samples/{sample}/medaka/snps.depth",
         ind="align_samples/{sample}/medaka/snps.depth.gz.tbi",
     conda:
-        "../envs/medaka_1_2_1.yaml"
+        "../envs/medaka_1_4_4.yaml"
     params:
         "-aa ",
     resources:

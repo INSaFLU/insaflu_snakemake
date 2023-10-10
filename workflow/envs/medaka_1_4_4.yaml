@@ -5,3 +5,5 @@ channels:
 dependencies:
   - medaka =1.4.4
   - bcftools = 1.12
+  - bedtools =2.31.0
+  - bwa =0.7.17

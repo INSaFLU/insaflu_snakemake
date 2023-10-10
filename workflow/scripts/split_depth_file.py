@@ -27,8 +27,6 @@ def split_depth_file(file_path, reference_gb):
             if new_file:
                 with open(f"{path}{name}.depth", "w", encoding="utf8") as output_file:
                     output_file.writelines(new_file)
-            # else:
-            # print("Action already taken.")
 
 
 if __name__ == "__main__":

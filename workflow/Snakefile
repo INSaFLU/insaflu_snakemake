@@ -141,19 +141,7 @@ class Checkpoint_Main:
         if True in valide_locus:
             files = [
                 expand(
-                    "projects/{project}/main_result/validated_minor_iSNVs.csv",
-                    project=config_user["project"],
-                ),
-                expand(
                     "projects/{project}/main_result/validated_variants.csv",
-                    project=config_user["project"],
-                ),
-                expand(
-                    "projects/{project}/main_result/validated_minor_iSNVs_inc_indels.csv",
-                    project=config_user["project"],
-                ),
-                expand(
-                    "projects/{project}/main_result/proportions_iSNVs_graph.csv",
                     project=config_user["project"],
                 ),
                 expand(
@@ -222,6 +210,22 @@ class Checkpoint_Main:
                 #     seg=SEGMENTS,
                 # ),
             ]
+            if user_metadata['get_minor_variants']:
+                files.extend([
+
+                expand(
+                    "projects/{project}/main_result/validated_minor_iSNVs.csv",
+                    project=config_user["project"],
+                    ),
+                expand(
+                    "projects/{project}/main_result/validated_minor_iSNVs_inc_indels.csv",
+                    project=config_user["project"],
+                ),
+                expand(
+                    "projects/{project}/main_result/proportions_iSNVs_graph.csv",
+                    project=config_user["project"],
+                )
+                ])
             return_list = []
             for new in files:
                 if isinstance(new, list):
@@ -365,6 +369,14 @@ def get_output_sample():
             "samples/{sample}/nano_trimmed_fastqc/{sample}_stats.txt",
             sample=ont_samples.keys(),
         ),
+        expand(
+            "samples/{sample}/raw_rabbit_qc/{sample}_stats.html",
+            sample=ont_samples.keys(),
+        ),
+        expand(
+            "samples/{sample}/processed_rabbit_qc/{sample}_stats.txt",
+            sample=ont_samples.keys(),
+        ),
     ]
     if ABRICATE is True:
         files.extend(
@@ -463,6 +475,14 @@ def get_output_project():
             "samples/{sample}/nano_trimmed_fastqc/{sample}_stats.txt",
             sample=ont_samples.keys(),
         ),
+        expand(
+            "samples/{sample}/raw_rabbit_qc/{sample}_stats.html",
+            sample=ont_samples.keys(),
+        ),
+        expand(
+            "samples/{sample}/processed_rabbit_qc/{sample}_stats.html",
+            sample=ont_samples.keys(),
+        ),
         Checkpoint_Main(
             [
                 (f'projects/{config_user["project"]}/main_result/', "_trans.fasta"),
@@ -516,7 +536,7 @@ def get_output_project():
                     "samples/{sample}/abricate_ont/abricate_{sample}.yaml",
                     sample=ont_samples.keys(),
                 ),
-                # expand("samples/{sample}/rabbitqc/rabbit.html", sample =  ont_samples.keys()),
+                expand("samples/{sample}/rabbitqc/rabbit.html", sample =  ont_samples.keys()),
             ]
         )
     return files

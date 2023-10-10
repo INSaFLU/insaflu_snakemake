@@ -1,4 +1,4 @@
-cd software
-git clone https://github.com/RabbitBio/RabbitQCPlus.git
-cd RabbitQCPlus
-make -j4
+mkdir ../workflow/software -p && cd ../workflow/software
+git clone https://github.com/ZekunYin/RabbitQC.git
+cd RabbitQC
+make 
