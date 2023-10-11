@@ -1,5 +1,11 @@
 # INSaFLU Snakemake
 
+## Install some system dependencies
+
+   ```bash
+   sudo apt install git build-essential zlib1g-dev
+   ```
+
 ## Create Environment
 
 ### Install Mamba Forge:
