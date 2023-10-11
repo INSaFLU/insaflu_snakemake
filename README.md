@@ -27,6 +27,8 @@
 ### Create Environment:
 
    ```bash
+   git clone https://github.com/INSaFLU/insaflu_snakemake.git
+   cd insaflu_snakemake
    mamba env create --name insaflu --file config/insaflu.yaml
    ```
 
