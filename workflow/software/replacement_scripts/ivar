@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source activate
-conda activate ivar8745920361
+CONDA_BASE=$(which conda | sed 's/[conda]*bin\/conda/etc\/profile.d\/conda\.sh/')
+source $CONDA_BASE
 ivar $@
 conda deactivate
