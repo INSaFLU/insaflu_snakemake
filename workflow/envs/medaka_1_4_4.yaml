@@ -7,3 +7,4 @@ dependencies:
   - bcftools = 1.12
   - bedtools =2.31.0
   - bwa =0.7.17
+  - htslib =1.12
