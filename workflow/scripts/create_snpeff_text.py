@@ -65,7 +65,7 @@ def prepare_snpeff_run(ref_path_gb, locus, ref_path_fa, reference_name, output):
             snpeff.writelines(text)
 
         subprocess.run(
-            f"snpEff build -genbank {reference_name} -c {CONFIG_FILE} > {output}",
+            f"snpEff build -noCheckProtein -genbank {reference_name} -c {CONFIG_FILE} > {output}",
             shell=True,
             check=False,
         )

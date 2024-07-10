@@ -56,7 +56,7 @@ def generate_AllConsensus(
 
     for row in coverage_list:
         for value in range(len(row) - 1, 0, -1):
-            if float(row[value]) >= coverage_value:
+            if float(row[value]) > coverage_value:
                 row[value] = value
             else:
                 row.pop(value)
